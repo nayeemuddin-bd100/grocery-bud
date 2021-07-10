@@ -7,19 +7,6 @@ function Item({ id, title, handleDelete, handleUpdate  }) {
  
   return (
     <>
-      {/* {update && (
-        <div className="update-section">
-          <input
-            className="text-update"
-            type="text"
-           
-            value={title}
-          />
-          <button className="update-btn">Update</button>
-        </div>
-      )} */}
-
-     
         <div true className="item-data">
           <div className="text-view"> {title}</div>
           <div className="icon-view">

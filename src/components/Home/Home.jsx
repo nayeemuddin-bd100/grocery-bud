@@ -1,16 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import shortid from "shortid";
 import Item from "../Item/Item";
 import "./Home.css";
 
 function Home() {
-  const [data, setData] = useState([]);
+
+  const initialData = [
+    { title: "Egg", id: "42453", update: false },
+    { title: "Bread", id: "5241", update: false },
+    { title: "Meat and Seafood", id: "4241234", update: false }
+  ];
+
+
+  const [data, setData] = useState(() => {
+    const localData = JSON.parse(localStorage.getItem("data"));
+      return localData.length === 0 ? initialData : localData;
+  });
 
   const [value, setValue] = useState({
     title: "",
     id: "",
     update: false,
   });
+
+
+  // local storage
+  /*
+    If we didn't use any initialData , than we can use localStorage simply look like that - 
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+      const raw = localStorage.getItem("data");
+      setData(JSON.parse(raw));
+    }, []);
+  */
+
+useEffect(() => {
+  localStorage.setItem("data", JSON.stringify(data));
+}, [data]);
 
   // Control input box
   const handleChange = (e) => {
@@ -117,7 +144,7 @@ const ItemSection = ({ data, handleDelete, handleUpdate }) => {
   return (
     <div className="item-section">
       {data.map((v) => (
-        <Item {...v} handleDelete={handleDelete} handleUpdate={handleUpdate} />
+        <Item {...v} key={v.id} handleDelete={handleDelete} handleUpdate={handleUpdate} />
       ))}
     </div>
   );
